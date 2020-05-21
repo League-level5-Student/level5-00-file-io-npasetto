@@ -1,8 +1,14 @@
+
 package _03_To_Do_List;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -71,13 +77,47 @@ public class ToDoList implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		JButton clicked=(JButton) arg0.getSource();
 		if(clicked==add) {
-			tasks.add(JOptionPane.showInputDialog("Enter a task."));
+			tasks.add(JOptionPane.showInputDialog("Enter a task to add."));
 		}else if(clicked==view) {
 			String answer="Tasks:";
 			for (String task : tasks) {
 				answer+="\n"+task;
 			}
 			JOptionPane.showMessageDialog(null,answer);
+		}else if(clicked==remove) {
+			String answer=JOptionPane.showInputDialog("Enter a task to remove.");
+			if(tasks.contains(answer)) {
+				tasks.remove(answer);
+			}else {
+				JOptionPane.showMessageDialog(null,answer+" is not one of your tasks.");
+			}
+		}else if(clicked==save) {
+			try {
+				FileWriter fw = new FileWriter("src/_03_To_Do_List/test.txt");
+				String saveString="";
+				for (String string : tasks) {
+					saveString+=string+"\n";
+				}
+				fw.write(saveString);
+				fw.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}else if(clicked==load) {
+			try {
+				BufferedReader br = new BufferedReader(new FileReader("src/_03_To_Do_List/test.txt"));
+				String line = br.readLine();
+				while(line != null){
+					tasks.add(line);
+					line = br.readLine();
+				}
+				br.close();
+			} catch (FileNotFoundException e1) {
+				e1.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }
+//Copyright 2020//Copyright 2020

@@ -79,3 +79,4 @@ public class FileDecryptor {
 	}
 }
 
+//Copyright 2020
